@@ -291,10 +291,10 @@ declare abstract class AsyncDependenciesBlock extends DependenciesBlock {
 declare abstract class AsyncQueue<T, K, R> {
 	hooks: {
 		beforeAdd: AsyncSeriesHook<[T]>;
-		added: SyncHook<[T], void>;
+		added: SyncHook<[T]>;
 		beforeStart: AsyncSeriesHook<[T]>;
-		started: SyncHook<[T], void>;
-		result: SyncHook<[T, Error, R], void>;
+		started: SyncHook<[T]>;
+		result: SyncHook<[T, Error, R]>;
 	};
 	add(item: T, callback: CallbackFunction<R>): void;
 	invalidate(item: T): void;
@@ -502,7 +502,7 @@ declare class Cache {
 		>;
 		store: AsyncParallelHook<[string, Etag, any]>;
 		storeBuildDependencies: AsyncParallelHook<[Iterable<string>]>;
-		beginIdle: SyncHook<[], void>;
+		beginIdle: SyncHook<[]>;
 		endIdle: AsyncParallelHook<[]>;
 		shutdown: AsyncParallelHook<[]>;
 	};
@@ -1091,11 +1091,11 @@ declare class Compilation {
 	 */
 	constructor(compiler: Compiler);
 	hooks: Readonly<{
-		buildModule: SyncHook<[Module], void>;
-		rebuildModule: SyncHook<[Module], void>;
-		failedModule: SyncHook<[Module, WebpackError], void>;
-		succeedModule: SyncHook<[Module], void>;
-		stillValidModule: SyncHook<[Module], void>;
+		buildModule: SyncHook<[Module]>;
+		rebuildModule: SyncHook<[Module]>;
+		failedModule: SyncHook<[Module, WebpackError]>;
+		succeedModule: SyncHook<[Module]>;
+		stillValidModule: SyncHook<[Module]>;
 		addEntry: SyncHook<
 			[
 				Dependency,
@@ -1108,8 +1108,7 @@ declare class Compilation {
 					| "runtime"
 					| "wasmLoading"
 				>
-			],
-			void
+			]
 		>;
 		failedEntry: SyncHook<
 			[
@@ -1124,8 +1123,7 @@ declare class Compilation {
 					| "wasmLoading"
 				>,
 				Error
-			],
-			void
+			]
 		>;
 		succeedEntry: SyncHook<
 			[
@@ -1140,8 +1138,7 @@ declare class Compilation {
 					| "wasmLoading"
 				>,
 				Module
-			],
-			void
+			]
 		>;
 		dependencyReferencedExports: SyncWaterfallHook<
 			[
@@ -1152,64 +1149,61 @@ declare class Compilation {
 		>;
 		finishModules: AsyncSeriesHook<[Iterable<Module>]>;
 		finishRebuildingModule: AsyncSeriesHook<[Module]>;
-		unseal: SyncHook<[], void>;
-		seal: SyncHook<[], void>;
-		beforeChunks: SyncHook<[], void>;
-		afterChunks: SyncHook<[Iterable<Chunk>], void>;
+		unseal: SyncHook<[]>;
+		seal: SyncHook<[]>;
+		beforeChunks: SyncHook<[]>;
+		afterChunks: SyncHook<[Iterable<Chunk>]>;
 		optimizeDependencies: SyncBailHook<[Iterable<Module>], any>;
-		afterOptimizeDependencies: SyncHook<[Iterable<Module>], void>;
-		optimize: SyncHook<[], void>;
+		afterOptimizeDependencies: SyncHook<[Iterable<Module>]>;
+		optimize: SyncHook<[]>;
 		optimizeModules: SyncBailHook<[Iterable<Module>], any>;
-		afterOptimizeModules: SyncHook<[Iterable<Module>], void>;
+		afterOptimizeModules: SyncHook<[Iterable<Module>]>;
 		optimizeChunks: SyncBailHook<[Iterable<Chunk>, ChunkGroup[]], any>;
-		afterOptimizeChunks: SyncHook<[Iterable<Chunk>, ChunkGroup[]], void>;
+		afterOptimizeChunks: SyncHook<[Iterable<Chunk>, ChunkGroup[]]>;
 		optimizeTree: AsyncSeriesHook<[Iterable<Chunk>, Iterable<Module>]>;
-		afterOptimizeTree: SyncHook<[Iterable<Chunk>, Iterable<Module>], void>;
+		afterOptimizeTree: SyncHook<[Iterable<Chunk>, Iterable<Module>]>;
 		optimizeChunkModules: AsyncSeriesBailHook<
 			[Iterable<Chunk>, Iterable<Module>],
 			any
 		>;
-		afterOptimizeChunkModules: SyncHook<
-			[Iterable<Chunk>, Iterable<Module>],
-			void
-		>;
+		afterOptimizeChunkModules: SyncHook<[Iterable<Chunk>, Iterable<Module>]>;
 		shouldRecord: SyncBailHook<[], boolean>;
-		additionalChunkRuntimeRequirements: SyncHook<[Chunk, Set<string>], void>;
+		additionalChunkRuntimeRequirements: SyncHook<[Chunk, Set<string>]>;
 		runtimeRequirementInChunk: HookMap<SyncBailHook<[Chunk, Set<string>], any>>;
-		additionalModuleRuntimeRequirements: SyncHook<[Module, Set<string>], void>;
+		additionalModuleRuntimeRequirements: SyncHook<[Module, Set<string>]>;
 		runtimeRequirementInModule: HookMap<
 			SyncBailHook<[Module, Set<string>], any>
 		>;
-		additionalTreeRuntimeRequirements: SyncHook<[Chunk, Set<string>], void>;
+		additionalTreeRuntimeRequirements: SyncHook<[Chunk, Set<string>]>;
 		runtimeRequirementInTree: HookMap<SyncBailHook<[Chunk, Set<string>], any>>;
-		runtimeModule: SyncHook<[RuntimeModule, Chunk], void>;
-		reviveModules: SyncHook<[Iterable<Module>, any], void>;
-		beforeModuleIds: SyncHook<[Iterable<Module>], void>;
-		moduleIds: SyncHook<[Iterable<Module>], void>;
-		optimizeModuleIds: SyncHook<[Iterable<Module>], void>;
-		afterOptimizeModuleIds: SyncHook<[Iterable<Module>], void>;
-		reviveChunks: SyncHook<[Iterable<Chunk>, any], void>;
-		beforeChunkIds: SyncHook<[Iterable<Chunk>], void>;
-		chunkIds: SyncHook<[Iterable<Chunk>], void>;
-		optimizeChunkIds: SyncHook<[Iterable<Chunk>], void>;
-		afterOptimizeChunkIds: SyncHook<[Iterable<Chunk>], void>;
-		recordModules: SyncHook<[Iterable<Module>, any], void>;
-		recordChunks: SyncHook<[Iterable<Chunk>, any], void>;
-		optimizeCodeGeneration: SyncHook<[Iterable<Module>], void>;
-		beforeModuleHash: SyncHook<[], void>;
-		afterModuleHash: SyncHook<[], void>;
-		beforeCodeGeneration: SyncHook<[], void>;
-		afterCodeGeneration: SyncHook<[], void>;
-		beforeRuntimeRequirements: SyncHook<[], void>;
-		afterRuntimeRequirements: SyncHook<[], void>;
-		beforeHash: SyncHook<[], void>;
-		contentHash: SyncHook<[Chunk], void>;
-		afterHash: SyncHook<[], void>;
-		recordHash: SyncHook<[any], void>;
-		record: SyncHook<[Compilation, any], void>;
-		beforeModuleAssets: SyncHook<[], void>;
+		runtimeModule: SyncHook<[RuntimeModule, Chunk]>;
+		reviveModules: SyncHook<[Iterable<Module>, any]>;
+		beforeModuleIds: SyncHook<[Iterable<Module>]>;
+		moduleIds: SyncHook<[Iterable<Module>]>;
+		optimizeModuleIds: SyncHook<[Iterable<Module>]>;
+		afterOptimizeModuleIds: SyncHook<[Iterable<Module>]>;
+		reviveChunks: SyncHook<[Iterable<Chunk>, any]>;
+		beforeChunkIds: SyncHook<[Iterable<Chunk>]>;
+		chunkIds: SyncHook<[Iterable<Chunk>]>;
+		optimizeChunkIds: SyncHook<[Iterable<Chunk>]>;
+		afterOptimizeChunkIds: SyncHook<[Iterable<Chunk>]>;
+		recordModules: SyncHook<[Iterable<Module>, any]>;
+		recordChunks: SyncHook<[Iterable<Chunk>, any]>;
+		optimizeCodeGeneration: SyncHook<[Iterable<Module>]>;
+		beforeModuleHash: SyncHook<[]>;
+		afterModuleHash: SyncHook<[]>;
+		beforeCodeGeneration: SyncHook<[]>;
+		afterCodeGeneration: SyncHook<[]>;
+		beforeRuntimeRequirements: SyncHook<[]>;
+		afterRuntimeRequirements: SyncHook<[]>;
+		beforeHash: SyncHook<[]>;
+		contentHash: SyncHook<[Chunk]>;
+		afterHash: SyncHook<[]>;
+		recordHash: SyncHook<[any]>;
+		record: SyncHook<[Compilation, any]>;
+		beforeModuleAssets: SyncHook<[]>;
 		shouldGenerateChunkAssets: SyncBailHook<[], boolean>;
-		beforeChunkAssets: SyncHook<[], void>;
+		beforeChunkAssets: SyncHook<[]>;
 		additionalChunkAssets: Pick<
 			AsyncSeriesHook<[Set<Chunk>]>,
 			"tap" | "tapAsync" | "tapPromise" | "name"
@@ -1230,10 +1224,17 @@ declare class Compilation {
 			"tap" | "tapAsync" | "tapPromise" | "name"
 		> &
 			FakeHookMarker;
-		optimizeAssets: AsyncSeriesHook<[Record<string, Source>]>;
-		afterOptimizeAssets: SyncHook<[Record<string, Source>], void>;
-		processAssets: AsyncSeriesHook<[Record<string, Source>]>;
-		afterProcessAssets: SyncHook<[Record<string, Source>], void>;
+		optimizeAssets: AsyncSeriesHook<
+			[Record<string, Source>],
+			{ additionalAssets?: true | Function }
+		>;
+		afterOptimizeAssets: SyncHook<[Record<string, Source>]>;
+		processAssets: AsyncSeriesHook<
+			[Record<string, Source>],
+			{ additionalAssets?: true | Function }
+		>;
+		afterProcessAssets: SyncHook<[Record<string, Source>]>;
+		processAdditionalAssets: AsyncSeriesHook<[Record<string, Source>]>;
 		needAdditionalSeal: SyncBailHook<[], boolean>;
 		afterSeal: AsyncSeriesHook<[]>;
 		renderManifest: SyncWaterfallHook<
@@ -1242,21 +1243,21 @@ declare class Compilation {
 				RenderManifestOptions
 			]
 		>;
-		fullHash: SyncHook<[Hash], void>;
-		chunkHash: SyncHook<[Chunk, Hash, ChunkHashContext], void>;
-		moduleAsset: SyncHook<[Module, string], void>;
-		chunkAsset: SyncHook<[Chunk, string], void>;
+		fullHash: SyncHook<[Hash]>;
+		chunkHash: SyncHook<[Chunk, Hash, ChunkHashContext]>;
+		moduleAsset: SyncHook<[Module, string]>;
+		chunkAsset: SyncHook<[Chunk, string]>;
 		assetPath: SyncWaterfallHook<[string, any, AssetInfo]>;
 		needAdditionalPass: SyncBailHook<[], boolean>;
-		childCompiler: SyncHook<[Compiler, string, number], void>;
+		childCompiler: SyncHook<[Compiler, string, number]>;
 		log: SyncBailHook<[string, LogEntry], true>;
 		processWarnings: SyncWaterfallHook<[WebpackError[]]>;
 		processErrors: SyncWaterfallHook<[WebpackError[]]>;
-		statsPreset: HookMap<SyncHook<[any, any], void>>;
-		statsNormalize: SyncHook<[any, any], void>;
-		statsFactory: SyncHook<[StatsFactory, any], void>;
-		statsPrinter: SyncHook<[StatsPrinter, any], void>;
-		readonly normalModuleLoader: SyncHook<[any, NormalModule], void>;
+		statsPreset: HookMap<SyncHook<[any, any]>>;
+		statsNormalize: SyncHook<[any, any]>;
+		statsFactory: SyncHook<[StatsFactory, any]>;
+		statsPrinter: SyncHook<[StatsPrinter, any]>;
+		readonly normalModuleLoader: SyncHook<[any, NormalModule]>;
 	}>;
 	name: string;
 	startTime: any;
@@ -1534,6 +1535,8 @@ declare class Compilation {
 
 	/**
 	 * Optimize the count of existing assets, e. g. by merging them.
+	 * Only assets of the same type should be merged.
+	 * For assets of different types see PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE.
 	 */
 	static PROCESS_ASSETS_STAGE_OPTIMIZE_COUNT: number;
 
@@ -1548,16 +1551,22 @@ declare class Compilation {
 	static PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE: number;
 
 	/**
-	 * Summarize the list of existing assets.
-	 * When creating new assets from this they should be fully optimized.
-	 * e. g. creating an assets manifest of Service Workers.
-	 */
-	static PROCESS_ASSETS_STAGE_SUMMARIZE: number;
-
-	/**
 	 * Add development tooling to assets, e. g. by extracting a SourceMap.
 	 */
 	static PROCESS_ASSETS_STAGE_DEV_TOOLING: number;
+
+	/**
+	 * Optimize the count of existing assets, e. g. by inlining assets of into other assets.
+	 * Only assets of different types should be inlined.
+	 * For assets of the same type see PROCESS_ASSETS_STAGE_OPTIMIZE_COUNT.
+	 */
+	static PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE: number;
+
+	/**
+	 * Summarize the list of existing assets
+	 * e. g. creating an assets manifest of Service Workers.
+	 */
+	static PROCESS_ASSETS_STAGE_SUMMARIZE: number;
 
 	/**
 	 * Optimize the hashes of the assets, e. g. by generating real hashes of the asset content.
@@ -1592,8 +1601,11 @@ declare interface CompilationHooksJavascriptModulesPlugin {
 	renderMain: SyncWaterfallHook<[Source, RenderContextObject]>;
 	render: SyncWaterfallHook<[Source, RenderContextObject]>;
 	renderRequire: SyncWaterfallHook<[string, RenderBootstrapContext]>;
-	chunkHash: SyncHook<[Chunk, Hash, ChunkHashContext], void>;
+	chunkHash: SyncHook<[Chunk, Hash, ChunkHashContext]>;
 	useSourceMap: SyncBailHook<[Chunk, RenderContextObject], boolean>;
+}
+declare interface CompilationHooksRealContentHashPlugin {
+	updateHash: SyncBailHook<[Buffer[], string], string>;
 }
 declare interface CompilationParams {
 	normalModuleFactory: NormalModuleFactory;
@@ -1602,34 +1614,34 @@ declare interface CompilationParams {
 declare class Compiler {
 	constructor(context: string);
 	hooks: Readonly<{
-		initialize: SyncHook<[], void>;
+		initialize: SyncHook<[]>;
 		shouldEmit: SyncBailHook<[Compilation], boolean>;
 		done: AsyncSeriesHook<[Stats]>;
-		afterDone: SyncHook<[Stats], void>;
+		afterDone: SyncHook<[Stats]>;
 		additionalPass: AsyncSeriesHook<[]>;
 		beforeRun: AsyncSeriesHook<[Compiler]>;
 		run: AsyncSeriesHook<[Compiler]>;
 		emit: AsyncSeriesHook<[Compilation]>;
 		assetEmitted: AsyncSeriesHook<[string, AssetEmittedInfo]>;
 		afterEmit: AsyncSeriesHook<[Compilation]>;
-		thisCompilation: SyncHook<[Compilation, CompilationParams], void>;
-		compilation: SyncHook<[Compilation, CompilationParams], void>;
-		normalModuleFactory: SyncHook<[NormalModuleFactory], void>;
-		contextModuleFactory: SyncHook<[ContextModuleFactory], void>;
+		thisCompilation: SyncHook<[Compilation, CompilationParams]>;
+		compilation: SyncHook<[Compilation, CompilationParams]>;
+		normalModuleFactory: SyncHook<[NormalModuleFactory]>;
+		contextModuleFactory: SyncHook<[ContextModuleFactory]>;
 		beforeCompile: AsyncSeriesHook<[CompilationParams]>;
-		compile: SyncHook<[CompilationParams], void>;
+		compile: SyncHook<[CompilationParams]>;
 		make: AsyncParallelHook<[Compilation]>;
 		finishMake: AsyncParallelHook<[Compilation]>;
 		afterCompile: AsyncSeriesHook<[Compilation]>;
 		watchRun: AsyncSeriesHook<[Compiler]>;
-		failed: SyncHook<[Error], void>;
-		invalid: SyncHook<[string, number], void>;
-		watchClose: SyncHook<[], void>;
+		failed: SyncHook<[Error]>;
+		invalid: SyncHook<[string, number]>;
+		watchClose: SyncHook<[]>;
 		infrastructureLog: SyncBailHook<[string, string, any[]], true>;
-		environment: SyncHook<[], void>;
-		afterEnvironment: SyncHook<[], void>;
-		afterPlugins: SyncHook<[Compiler], void>;
-		afterResolvers: SyncHook<[Compiler], void>;
+		environment: SyncHook<[]>;
+		afterEnvironment: SyncHook<[]>;
+		afterPlugins: SyncHook<[Compiler]>;
+		afterResolvers: SyncHook<[Compiler]>;
 		entryOption: SyncBailHook<[string, EntryNormalized], boolean>;
 	}>;
 	webpack: typeof exports;
@@ -5294,10 +5306,10 @@ declare abstract class ModuleTemplate {
 declare class MultiCompiler {
 	constructor(compilers: Compiler[] | Record<string, Compiler>);
 	hooks: Readonly<{
-		done: SyncHook<[MultiStats], void>;
-		invalid: MultiHook<SyncHook<[string, number], void>>;
+		done: SyncHook<[MultiStats]>;
+		invalid: MultiHook<SyncHook<[string, number]>>;
 		run: MultiHook<AsyncSeriesHook<[Compiler]>>;
-		watchClose: SyncHook<[], void>;
+		watchClose: SyncHook<[]>;
 		watchRun: MultiHook<AsyncSeriesHook<[Compiler]>>;
 		infrastructureLog: MultiHook<SyncBailHook<[string, string, any[]], true>>;
 	}>;
@@ -5606,8 +5618,8 @@ declare class NormalModule extends Module {
 	static deserialize(context?: any): NormalModule;
 }
 declare interface NormalModuleCompilationHooks {
-	loader: SyncHook<[any, NormalModule], void>;
-	beforeLoaders: SyncHook<[LoaderItem[], NormalModule, any], void>;
+	loader: SyncHook<[any, NormalModule]>;
+	beforeLoaders: SyncHook<[LoaderItem[], NormalModule, any]>;
 	readResourceForScheme: HookMap<
 		AsyncSeriesBailHook<[string, NormalModule], string | Buffer>
 	>;
@@ -5634,11 +5646,11 @@ declare abstract class NormalModuleFactory extends ModuleFactory {
 		beforeResolve: AsyncSeriesBailHook<[ResolveData], any>;
 		afterResolve: AsyncSeriesBailHook<[ResolveData], any>;
 		createModule: AsyncSeriesBailHook<[any, ResolveData], any>;
-		module: SyncWaterfallHook<[Module, any, ResolveData]>;
+		module: SyncWaterfallHook<[Module, any, ResolveData], any>;
 		createParser: HookMap<SyncBailHook<any, any>>;
-		parser: HookMap<SyncHook<any, void>>;
+		parser: HookMap<SyncHook<any>>;
 		createGenerator: HookMap<SyncBailHook<any, any>>;
-		generator: HookMap<SyncHook<any, void>>;
+		generator: HookMap<SyncHook<any>>;
 	}>;
 	resolverFactory: ResolverFactory;
 	ruleSet: RuleSet;
@@ -6860,6 +6872,17 @@ declare class ReadFileCompileWasmPlugin {
 	 */
 	apply(compiler: Compiler): void;
 }
+declare class RealContentHashPlugin {
+	constructor(__0: { hashFunction: any; hashDigest: any });
+
+	/**
+	 * Apply the plugin
+	 */
+	apply(compiler: Compiler): void;
+	static getCompilationHooks(
+		compilation: Compilation
+	): CompilationHooksRealContentHashPlugin;
+}
 declare interface RealDependencyLocation {
 	start: SourcePosition;
 	end?: SourcePosition;
@@ -7356,10 +7379,9 @@ declare abstract class Resolver {
 			[
 				AsyncSeriesBailHook<[ResolveRequest, ResolveContext], ResolveRequest>,
 				ResolveRequest
-			],
-			void
+			]
 		>;
-		noResolve: SyncHook<[ResolveRequest, Error], void>;
+		noResolve: SyncHook<[ResolveRequest, Error]>;
 		resolve: AsyncSeriesBailHook<
 			[ResolveRequest, ResolveContext],
 			ResolveRequest
@@ -7631,8 +7653,7 @@ declare abstract class ResolverFactory {
 						dependencyType?: string;
 						resolveToContext?: boolean;
 					}
-				],
-				void
+				]
 			>
 		>;
 	}>;
@@ -10208,6 +10229,7 @@ declare namespace exports {
 			LimitChunkCountPlugin,
 			MinChunkSizePlugin,
 			ModuleConcatenationPlugin,
+			RealContentHashPlugin,
 			RuntimeChunkPlugin,
 			SideEffectsFlagPlugin,
 			SplitChunksPlugin

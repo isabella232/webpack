@@ -25,7 +25,7 @@
     "neo-async": "^2.6.2",
     "pkg-dir": "^4.2.0",
     "schema-utils": "^3.0.0",
-    "tapable": "^2.0.0",
+    "tapable": "^2.1.1",
     "terser-webpack-plugin": "^5.0.3",
     "watchpack": "^2.0.0",
     "webpack-sources": "^2.1.1"
@@ -92,7 +92,7 @@
     "style-loader": "^1.1.4",
     "terser": "^4.8.0",
     "toml": "^3.0.0",
-    "tooling": "webpack/tooling#v1.8.1",
+    "tooling": "webpack/tooling#v1.9.0",
     "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
     "url-loader": "^4.1.0",
